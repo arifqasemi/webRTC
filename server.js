@@ -1,5 +1,6 @@
 const fs = require('fs')
 const https = require('http')
+const cors = require('cors')
 const express = require('express')
 const { createServer } = require('http');
 
