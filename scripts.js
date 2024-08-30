@@ -1,6 +1,6 @@
 const localVideoEl = document.querySelector('#local-video');
 const remoteVideoEl = document.querySelector('#remote-video');
-const socket = io.connect('https://localhost:8181/')
+const socket = io.connect('https://video-call-koi54xhgs-sultaniahmad922gmailcoms-projects.vercel.app/')
 
 let localStream;
 let remoteStream;

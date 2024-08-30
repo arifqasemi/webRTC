@@ -1,14 +1,19 @@
 const fs = require('fs')
-const https = require('https')
+const https = require('http')
 const express = require('express')
+const { createServer } = require('http');
+
 const socketio = require('socket.io')
 const app = express()
+const server = createServer(app);
 
-const key = fs.readFileSync('cert.key')
-const cert = fs.readFileSync('cert.crt')
+// const key = fs.readFileSync('cert.key')
+// const cert = fs.readFileSync('cert.crt')
 
-const socketServer = https.createServer({key,cert},app)
-const io = socketio(socketServer)
+const { Server } = require('socket.io');
+app.use(cors());
+const io = new Server(server);
+// const io = socketio(socketServer)
 
 app.use(express.static(__dirname))
 
@@ -69,4 +74,4 @@ io.on('connection',(socket)=>{
 app.get('/test',(req,res)=>{
     res.send('test')
 })
-socketServer.listen(8181)
+app.listen(8181)
