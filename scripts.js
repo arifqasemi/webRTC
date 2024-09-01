@@ -30,6 +30,7 @@ const call = async () => {
     } catch (er) {
         console.error('Error during offer creation:', er);
     }
+
 }
 
 const createPeerConnection = async (offerObject) => {
@@ -58,6 +59,7 @@ const createPeerConnection = async (offerObject) => {
                 // console.log('ice candidate')
                 // console.log(e.candidate) 
             }
+            didIOffer = false
         })
 
         peerconnection.addEventListener('track', (event) => {
