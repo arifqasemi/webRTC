@@ -1,6 +1,7 @@
 const localVideoEl = document.querySelector('#local-video');
 const remoteVideoEl = document.querySelector('#remote-video');
 const socket = io.connect('https://shark-app-d5wl7.ondigitalocean.app/');
+const userName = "Omaar"
 
 let localStream;
 let remoteStream;
