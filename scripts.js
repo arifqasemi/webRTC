@@ -55,7 +55,7 @@ const createPeerConnection = async (offerObject) => {
                     didIOffer,
                 })   
                 console.log('ice candidate')
-                console.log(e.candidate) 
+                console.log(e.candidate.candidate) 
             }
         })
 
