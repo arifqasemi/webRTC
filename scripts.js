@@ -45,17 +45,10 @@ const createPeerConnection = async (offerObject) => {
             peerconnection.addTrack(track, localStream);
         });
 
-        peerconnection.addEventListener('icecandidate', e => {
-            if (e.candidate) {
-                socket.emit('iceCandidate',{
-                    icCandidate:e.candidate,
-                    userName:'test',
-                    didIOffer,
-                })
-                // console.log('ICE candidate:', e.candidate);
-            } else {
-                // console.log('ICE candidate gathering complete.');
-            }
+        socket.on('iceCandidate', (candidate) => {
+            peerconnection.addIceCandidate(new RTCIceCandidate(candidate.icCandidate))
+                .then(() => console.log('Added ICE candidate'))
+                .catch((error) => console.error('Error adding ICE candidate', error));
         });
 
         peerconnection.addEventListener('track', (event) => {
