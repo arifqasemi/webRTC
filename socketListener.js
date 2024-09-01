@@ -1,4 +1,4 @@
-socket.on('availableOffers',(offer)=>{
+socket.on('availableOffer',(offer)=>{
     // console.log(offer)
     createOfferEl(offer)
 

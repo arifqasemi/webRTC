@@ -44,7 +44,8 @@ const createPeerConnection = async (offerObject) => {
         });
 
         //check from here on
-
+       console.log('the offer object')
+       console.log()
         peerconnection.addEventListener('icecandidate',e=>{
             // console.log('........Ice candidate found!......')
             // console.log(e)
@@ -54,8 +55,8 @@ const createPeerConnection = async (offerObject) => {
                     iceUserName: userName,
                     didIOffer,
                 })   
-                console.log('ice candidate')
-                console.log(e.candidate) 
+                // console.log('ice candidate')
+                // console.log(e.candidate) 
             }
         })
 
@@ -86,6 +87,7 @@ const fetchUserMedia = async () => {
 const answerOffer = async (offer) => {
     await fetchUserMedia();
     await createPeerConnection(offer);
+
     const answer = await peerconnection.createAnswer();
     await peerconnection.setLocalDescription(answer);
     offer.answer = answer;
