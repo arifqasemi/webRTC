@@ -58,13 +58,14 @@ const createPeerConnection = async (offerObject) => {
             }
         });
 
-        peerconnection.addEventListener('track',(e)=>{
-            console.log('the answer track media is')
-            console.log(e)
-            e.streams[0].addTrack().forEach((track)=>{
-                remoteStream.addTrack(track)
-            })
-        })
+        peerconnection.addEventListener('track', (event) => {
+            console.log('the answer track media is');
+            console.log(event);
+            event.streams[0].getTracks().forEach((track) => {
+                remoteStream.addTrack(track);
+            });
+        });
+        
 
 
         if(offerObject){
