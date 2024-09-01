@@ -89,5 +89,8 @@ const answerOffer = async (offer) => {
     offer.answer = answer;
     socket.emit('answer', offer);
 }
-
+const addNewIceCandidate = iceCandidate=>{
+    peerconnection.addIceCandidate(iceCandidate)
+    console.log("======Added Ice Candidate======")
+}
 document.querySelector('#call').addEventListener('click', call);
