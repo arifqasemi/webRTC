@@ -1,5 +1,6 @@
 const localVideoEl = document.querySelector('#local-video');
 const remoteVideoEl = document.querySelector('#remote-video');
+const userName = "Rob-"+Math.floor(Math.random() * 100000)
 const socket = io.connect('https://shark-app-d5wl7.ondigitalocean.app/');
 
 let localStream;
@@ -42,11 +43,19 @@ const createPeerConnection = async (offerObject) => {
             peerconnection.addTrack(track, localStream);
         });
 
-        socket.on('iceCandidate', (candidate) => {
-            peerconnection.addIceCandidate(new RTCIceCandidate(candidate.icCandidate))
-                .then(() => console.log('Added ICE candidate'))
-                .catch((error) => console.error('Error adding ICE candidate', error));
-        });
+        //check from here on
+
+        peerconnection.addEventListener('icecandidate',e=>{
+            console.log('........Ice candidate found!......')
+            console.log(e)
+            if(e.candidate){
+                socket.emit('sendIceCandidateToSignalingServer',{
+                    iceCandidate: e.candidate,
+                    iceUserName: userName,
+                    didIOffer,
+                })    
+            }
+        })
 
         peerconnection.addEventListener('track', (event) => {
             console.log('The answer track media is:', event);
