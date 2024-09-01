@@ -46,8 +46,8 @@ const createPeerConnection = async (offerObject) => {
         //check from here on
 
         peerconnection.addEventListener('icecandidate',e=>{
-            console.log('........Ice candidate found!......')
-            console.log(e)
+            // console.log('........Ice candidate found!......')
+            // console.log(e)
             if(e.candidate){
                 socket.emit('sendIceCandidateToSignalingServer',{
                     iceCandidate: e.candidate,
@@ -88,6 +88,10 @@ const answerOffer = async (offer) => {
     await peerconnection.setLocalDescription(answer);
     offer.answer = answer;
     socket.emit('answer', offer);
+}
+const addNewIceCandidate = iceCandidate=>{
+    peerconnection.addIceCandidate(iceCandidate)
+    console.log("======Added Ice Candidate======")
 }
 
 document.querySelector('#call').addEventListener('click', call);
