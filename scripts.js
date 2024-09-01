@@ -1,6 +1,6 @@
 const localVideoEl = document.querySelector('#local-video');
 const remoteVideoEl = document.querySelector('#remote-video');
-const socket = io.connect('https://shark-app-d5wl7.ondigitalocean.app/')
+const socket = io.connect('https://shark-app-d5wl7.ondigitalocean.app/');
 
 let localStream;
 let remoteStream;
@@ -18,27 +18,24 @@ let peerConfiguration = {
 }
 
 const call = async () => {
-   
-    await fetchUserMedia()
+    await fetchUserMedia();
     await createPeerConnection();
 
     try {
-        // console.log('Creating offer...');
         const offer = await peerconnection.createOffer();
         await peerconnection.setLocalDescription(offer);
-        didIOffer = true
-        socket.emit('offer',offer) // Important step to trigger ICE gathering
-        // console.log('Offer created and set as local description:', offer);
+        didIOffer = true;
+        socket.emit('offer', offer);
     } catch (er) {
-        // console.error('Error during offer creation:', er);
+        console.error('Error during offer creation:', er);
     }
 }
 
 const createPeerConnection = async (offerObject) => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
         peerconnection = new RTCPeerConnection(peerConfiguration);
 
-        remoteStream = new MediaStream()
+        remoteStream = new MediaStream();
         remoteVideoEl.srcObject = remoteStream;
         
         localStream.getTracks().forEach(track => {
@@ -52,55 +49,36 @@ const createPeerConnection = async (offerObject) => {
         });
 
         peerconnection.addEventListener('track', (event) => {
-            console.log('the answer track media is');
-            console.log(event);
+            console.log('The answer track media is:', event);
             event.streams[0].getTracks().forEach((track) => {
                 remoteStream.addTrack(track);
             });
         });
-        
 
-
-        if(offerObject){
-            peerconnection.setRemoteDescription(offerObject.offer)
+        if (offerObject) {
+            peerconnection.setRemoteDescription(offerObject.offer);
         }
         resolve();
     });
 }
 
-
-const fetchUserMedia =async()=>{
-    return new Promise(async(resolve,reject)=>{
-        try{
-            const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-            localVideoEl.srcObject = stream;
-            localStream = stream;
-            resolve()
-        }catch(error){
-            console.log(error)
-            reject()
-
-        }
-    })
+const fetchUserMedia = async () => {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+        localVideoEl.srcObject = stream;
+        localStream = stream;
+    } catch (error) {
+        console.error('Error accessing user media:', error);
+    }
 }
 
-
-
-
-const answerOffer =async(offer)=>{
-    await fetchUserMedia()
-    await createPeerConnection(offer)
-   const answer = await peerconnection.createAnswer()
-   peerconnection.setLocalDescription(answer)
-    // console.log(answer)
-    offer.answer = answer
-    socket.emit('answer',offer)
+const answerOffer = async (offer) => {
+    await fetchUserMedia();
+    await createPeerConnection(offer);
+    const answer = await peerconnection.createAnswer();
+    await peerconnection.setLocalDescription(answer);
+    offer.answer = answer;
+    socket.emit('answer', offer);
 }
 
-
-
-const addNewIceCandidate =(offer)=>{
-    console.log('the offer and answer is on the addNewIceCandidate')
-    console.log(offer)
-}
 document.querySelector('#call').addEventListener('click', call);
