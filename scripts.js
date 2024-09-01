@@ -4,6 +4,8 @@ let peerConnection; //the peerConnection that the two clients use to talk
 let didIOffer = false;
 const userName = "Rob-"+Math.floor(Math.random() * 100000)
 const password = "x";
+const localVideoEl = document.querySelector('#local-video');
+const remoteVideoEl = document.querySelector('#remote-video');
 document.querySelector('#user-name').innerHTML = userName;
 const socket = io.connect('https://shark-app-d5wl7.ondigitalocean.app/',{
     auth: {
