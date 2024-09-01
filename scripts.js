@@ -46,14 +46,15 @@ const createPeerConnection = async (offerObject) => {
         //check from here on
 
         peerconnection.addEventListener('icecandidate',e=>{
-            // console.log('........Ice candidate found!......')
-            // console.log(e)
+            console.log('........Ice candidate found!......')
+            console.log(e)
             if(e.candidate){
                 socket.emit('sendIceCandidateToSignalingServer',{
                     iceCandidate: e.candidate,
                     iceUserName: userName,
                     didIOffer,
-                })    
+                })   
+                console.log(e.candidate) 
             }
         })
 
