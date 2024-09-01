@@ -1,32 +1,29 @@
 socket.on('availableOffers',(offer)=>{
     // console.log(offer)
-    createOfferEls(offer)
+    createOfferEl(offer)
 
 })
 
-socket.on('newOfferAwaiting',offers=>{
-    createOfferEls(offers)
-})
-
-socket.on('answerResponse',offerObj=>{
-    console.log(offerObj)
-    addAnswer(offerObj)
-})
-
-socket.on('receivedIceCandidateFromServer',iceCandidate=>{
-    addNewIceCandidate(iceCandidate)
-    console.log(iceCandidate)
+socket.on('newOfferWaiting',(offer)=>{
+    // console.log(offer)
+    createOfferEl(offer)
 })
 
 
-function createOfferEls(offers){
-    //make green answer button for this new offer
-    const answerEl = document.querySelector('#answer');
-    offers.forEach(o=>{
-        console.log(o);
-        const newOfferEl = document.createElement('div');
-        newOfferEl.innerHTML = `<button class="btn btn-success col-1">Answer ${o.offererUserName}</button>`
-        newOfferEl.addEventListener('click',()=>answerOffer(o))
-        answerEl.appendChild(newOfferEl);
-    })
+socket.on('answerResponse',(offer)=>{
+    // console.log('this is the answer respone')
+    // console.log(offer)
+    addNewIceCandidate(offer)
+})
+
+
+const createOfferEl =(offer)=>{
+    const answerEl = document.querySelector('#answer')
+    offer.forEach(element => {
+        // console.log(element)
+        const newOfferEl = document.createElement('div')
+        newOfferEl.innerHTML = `<button class="btn btn-primary">Answer ${element.offerUserName}</button>`
+        newOfferEl.addEventListener('click',()=>answerOffer(element))
+        answerEl.appendChild(newOfferEl)
+    });
 }
