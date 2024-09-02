@@ -98,7 +98,14 @@ const answerOffer = async (offer) => {
     const answer = await peerconnection.createAnswer();
     await peerconnection.setLocalDescription(answer);
     offer.answer = answer;
-    socket.emit('answer', offer);
+    const senderIceCandidate = await socket.emitWithAck('answer',offer)
+    senderIceCandidate.forEach(c=>{
+        peerconnection.addIceCandidate(c);
+        console.log("======sender Ice Candidate added======")
+    
+    })
+    console.log(senderIceCandidate)
+    // socket.emit('answer', offer);
 }
 const addNewIceCandidate = iceCandidate=>{
     peerconnection.addIceCandidate(iceCandidate)
