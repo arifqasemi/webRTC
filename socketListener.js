@@ -16,7 +16,7 @@ socket.on('receiverIceCandidate',(iceCandidate)=>{
 
 socket.on('answerResponse',(offer)=>{
     // console.log('this is the answer respone')
-    console.log(offer)
+    // console.log(offer)
     addAnswer(offer)
     // addNewIceCandidate(offer)
 })
