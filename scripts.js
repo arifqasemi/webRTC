@@ -44,9 +44,6 @@ const createPeerConnection = async (offerObject) => {
             peerconnection.addTrack(track, localStream);
         });
 
-        //check from here on
-       console.log('the offer object')
-       console.log()
         peerconnection.addEventListener('icecandidate',e=>{
             // console.log('........Ice candidate found!......')
             // console.log(e)
@@ -54,12 +51,11 @@ const createPeerConnection = async (offerObject) => {
                 socket.emit('sendIceCandidateToSignalingServer',{
                     iceCandidate: e.candidate,
                     iceUserName: userName,
-                    didIOffer,
+                    didIOffer:offerObject ? false : true,
                 })   
                 // console.log('ice candidate')
                 // console.log(e.candidate) 
             }
-            didIOffer = false
         })
 
         peerconnection.addEventListener('track', (event) => {
