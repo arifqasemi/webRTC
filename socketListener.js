@@ -11,6 +11,7 @@ socket.on('newOfferWaiting',(offer)=>{
 
 
 socket.on('receiverIceCandidate',(iceCandidate)=>{
+    console.log(iceCandidate)
     addNewIceCandidate(iceCandidate)
 })
 
