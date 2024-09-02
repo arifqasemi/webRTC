@@ -59,7 +59,7 @@ const createPeerConnection = async (offerObject) => {
         })
 
         peerconnection.addEventListener('track', (event) => {
-            console.log('The answer track media is:', event);
+            // console.log('The answer track media is:', event);
             event.streams[0].getTracks().forEach((track) => {
                 remoteStream.addTrack(track);
             });
@@ -103,6 +103,7 @@ const answerOffer = async (offer) => {
 const addNewIceCandidate = iceCandidate=>{
     peerconnection.addIceCandidate(iceCandidate)
     console.log("======Added Ice Candidate======")
+    console.log(iceCandidate)
 }
 
 document.querySelector('#call').addEventListener('click', call);
