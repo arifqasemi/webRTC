@@ -1,36 +1,33 @@
-socket.on('availableOffer',(offer)=>{
-    // console.log(offer)
-    createOfferEl(offer)
 
+//on connection get all available offers and call createOfferEls
+socket.on('availableOffers',offers=>{
+    console.log(offers)
+    createOfferEls(offers)
 })
 
-socket.on('newOfferWaiting',(offer)=>{
-    // console.log(offer)
-    createOfferEl(offer)
+//someone just made a new offer and we're already here - call createOfferEls
+socket.on('newOfferAwaiting',offers=>{
+    createOfferEls(offers)
 })
 
+socket.on('answerResponse',offerObj=>{
+    console.log(offerObj)
+    addAnswer(offerObj)
+})
 
-socket.on('receiverIceCandidate',(iceCandidate)=>{
-    console.log("======Added Ice Candidate======")
-    console.log(iceCandidate)
+socket.on('receivedIceCandidateFromServer',iceCandidate=>{
     addNewIceCandidate(iceCandidate)
+    console.log(iceCandidate)
 })
 
-socket.on('answerResponse',(offer)=>{
-    // console.log('this is the answer respone')
-    // console.log(offer)
-    addAnswer(offer)
-    // addNewIceCandidate(offer)
-})
-
-
-const createOfferEl =(offer)=>{
-    const answerEl = document.querySelector('#answer')
-    offer.forEach(element => {
-        // console.log(element)
-        const newOfferEl = document.createElement('div')
-        newOfferEl.innerHTML = `<button class="btn btn-primary">Answer ${element.offerUserName}</button>`
-        newOfferEl.addEventListener('click',()=>answerOffer(element))
-        answerEl.appendChild(newOfferEl)
-    });
+function createOfferEls(offers){
+    //make green answer button for this new offer
+    const answerEl = document.querySelector('#answer');
+    offers.forEach(o=>{
+        console.log(o);
+        const newOfferEl = document.createElement('div');
+        newOfferEl.innerHTML = `<button class="btn btn-success col-1">Answer ${o.offererUserName}</button>`
+        newOfferEl.addEventListener('click',()=>answerOffer(o))
+        answerEl.appendChild(newOfferEl);
+    })
 }
