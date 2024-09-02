@@ -50,7 +50,7 @@ const createPeerConnection = async (offerObject) => {
             if(e.candidate){
                 socket.emit('sendIceCandidateToSignalingServer',{
                     iceCandidate: e.candidate,
-                    iceUserName: offerObject ? 'reciever' : 'sender',
+                    iceUserName: offerObject ? 'receiver' : 'sender',
                     didIOffer:offerObject ? false : true,
                 })   
                 // console.log('ice candidate')
