@@ -82,6 +82,15 @@ const fetchUserMedia = async () => {
     }
 }
 
+
+const addAnswer = async(offerObj)=>{
+    //addAnswer is called in socketListeners when an answerResponse is emitted.
+    //at this point, the offer and answer have been exchanged!
+    //now CLIENT1 needs to set the remote
+    await peerconnection.setRemoteDescription(offerObj.answer)
+    // console.log(peerConnection.signalingState)
+}
+
 const answerOffer = async (offer) => {
     await fetchUserMedia();
     await createPeerConnection(offer);
